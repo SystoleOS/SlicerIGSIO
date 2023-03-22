@@ -9,7 +9,8 @@ set(${KIT}_EXPORT_DIRECTIVE "VTK_SLICER_${MODULE_NAME_UPPER}_MODULE_LOGIC_EXPORT
 set(${KIT}_INCLUDE_DIRECTORIES
   ${vtkSlicerSequencesModuleMRML_INCLUDE_DIRS}
   ${vtkSlicer${MODULE_NAME}ModuleMRML_INCLUDE_DIRS}
-  ${VTKIGSIOCOMMON_INCLUDES}
+  ${VTKIGSIOCOMMON_INCLUDE_DIRS}
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/vtkSlicerSequencesModuleMRML
   )
 
 set(${KIT}_SRCS
@@ -23,6 +24,12 @@ set(${KIT}_TARGET_LIBRARIES
   vtkSlicer${MODULE_NAME}ModuleMRML
   )
 
+set(DISABLE_WRAP_PYTHON DISABLE_WRAP_PYTHON)
+if (Slicer_USE_PYTHONQT)
+  set(DISABLE_WRAP_PYTHON)
+  list(APPEND ${KIT}_TARGET_LIBRARIES ${Python3_LIBRARIES})
+endif()
+
 #-----------------------------------------------------------------------------
 SlicerMacroBuildModuleLogic(
   NAME ${KIT}
@@ -30,6 +37,7 @@ SlicerMacroBuildModuleLogic(
   INCLUDE_DIRECTORIES ${${KIT}_INCLUDE_DIRECTORIES}
   SRCS ${${KIT}_SRCS}
   TARGET_LIBRARIES ${${KIT}_TARGET_LIBRARIES}
+  ${DISABLE_WRAP_PYTHON}
   )
 
 

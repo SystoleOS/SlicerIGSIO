@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
+
 find_package(IGSIO REQUIRED)
-if (DEFINED Slicer_EXTENSION_SOURCE_DIRS) # Custom build
-  find_package(vtkAddon REQUIRED)
-endif()
+find_package(vtkAddon REQUIRED)
 
 set(MODULE_NAME "SequenceIO")
 set(MODULE_TITLE "SequenceIO")
@@ -44,7 +43,10 @@ set(MODULE_TARGET_LIBRARIES
   vtkIGSIOCommon
   vtkSequenceIO
   vtkSlicerIGSIOCommon
+  ${CTK_LIBRARIES}
   )
+
+link_directories(${Slicer_INSTALL_QTLOADABLEMODULES_LIB_DIR})
 
 #-----------------------------------------------------------------------------
 slicerMacroBuildLoadableModule(

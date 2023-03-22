@@ -3,11 +3,8 @@ project(vtkSlicerIGSIOCommon)
 # --------------------------------------------------------------------------
 # Sources
 # --------------------------------------------------------------------------
-
 find_package(IGSIO REQUIRED)
-if (DEFINED Slicer_EXTENSION_SOURCE_DIRS) # Custom build
-  find_package(vtkAddon REQUIRED)
-endif()
+find_package(vtkAddon REQUIRED)
 
 set(SlicerIGSIOCommon_SRCS
   vtkSlicerIGSIOCommon.cxx
@@ -25,6 +22,8 @@ set(SlicerIGSIOCommon_INCLUDE_DIRS
   ${VTKSEQUENCEIO_INCLUDE_DIRS}
   ${vtkSlicerSequencesModuleMRML_INCLUDE_DIRS}
   ${vtkSlicerVolumesModuleLogic_INCLUDE_DIRS}
+  ${vtkAddon_INCLUDE_DIRS}
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/vtkSlicerSequencesModuleMRML
   CACHE INTERNAL "" FORCE)
 
 # --------------------------------------------------------------------------
@@ -38,9 +37,12 @@ set(SlicerIGSIOCommon_LIBS ${SlicerIGSIOCommon_LIBS}
   vtkSequenceIO
   vtkSlicerSequencesModuleMRML
   vtkSlicerVolumesModuleLogic
+  vtkAddon
   )
 
 include_directories( ${SlicerIGSIOCommon_INCLUDE_DIRS} )
+link_directories(${Slicer_INSTALL_QTLOADABLEMODULES_LIB_DIR})
+
 add_library(${PROJECT_NAME} ${SlicerIGSIOCommon_SRCS})
 target_link_libraries( ${PROJECT_NAME} ${SlicerIGSIOCommon_LIBS} )
 
@@ -69,7 +71,7 @@ install(TARGETS ${PROJECT_NAME}
 # --------------------------------------------------------------------------
 # Python Wrapping
 # --------------------------------------------------------------------------
-if(VTK_WRAP_PYTHON AND BUILD_SHARED_LIBS)
+if(Slicer_USE_PYTHONQT AND BUILD_SHARED_LIBS)
 
   set(Slicer_Wrapped_LIBRARIES
     )

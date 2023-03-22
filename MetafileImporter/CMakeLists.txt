@@ -15,8 +15,9 @@ set(MODULE_EXPORT_DIRECTIVE "Q_SLICER_QTMODULES_${MODULE_NAME_UPPER}_EXPORT")
 set(MODULE_INCLUDE_DIRECTORIES
   ${CMAKE_CURRENT_SOURCE_DIR}/Logic
   ${CMAKE_CURRENT_BINARY_DIR}/Logic
-  ${vtkSlicerSequencesModuleLogic_INCLUDE_DIRS} # for creating sequence browser node
-  ${qSlicerSequencesModule_INCLUDE_DIRS} # for selecting as active browser node in toolbar
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/vtkSlicerSequencesModuleLogic
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/vtkSlicerSequencesModuleMRML
+  ${Slicer_INSTALL_QTLOADABLEMODULES_INCLUDE_DIR}/Sequences
   )
 
 set(MODULE_SRCS
@@ -46,6 +47,7 @@ set(MODULE_TARGET_LIBRARIES
   vtkSlicer${MODULE_NAME}ModuleLogic
   vtkSlicerSequencesModuleLogic
   qSlicerSequencesModuleWidgets
+  ${CTK_LIBRARIES}
   )
 
 set(MODULE_RESOURCES
